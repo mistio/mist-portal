@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="512px"
+   height="234px"
+   viewBox="0 0 512 234"
+   version="1.1"
+   id="svg37"
+   sodipodi:docname="mist-logo-inverted.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata41">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>mist full logo copy</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
+     id="namedview39"
+     showgrid="false"
+     inkscape:zoom="0.55273438"
+     inkscape:cx="256"
+     inkscape:cy="117"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg37" />
+  <!-- Generator: Sketch 3.3.2 (12043) - http://www.bohemiancoding.com/sketch -->
+  <title
+     id="title2">mist full logo copy</title>
+  <desc
+     id="desc4">Created with Sketch.</desc>
+  <defs
+     id="defs21">
+    <linearGradient
+       x1="208.47618"
+       y1="447.38718"
+       x2="5.5453776"
+       y2="253.63122"
+       id="linearGradient-1"
+       gradientTransform="scale(1.6764335,0.59650442)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#FFFFFF"
+         offset="0%"
+         id="stop6" />
+      <stop
+         stop-color="#C1C1C1"
+         offset="100%"
+         id="stop8" />
+    </linearGradient>
+    <linearGradient
+       x1="213.53256"
+       y1="0.025176445"
+       x2="14.128884"
+       y2="211.87319"
+       id="linearGradient-2"
+       gradientTransform="scale(1.9112378,0.52322113)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#FFFFFF"
+         offset="0%"
+         id="stop11" />
+      <stop
+         stop-color="#A2A2A2"
+         offset="100%"
+         id="stop13" />
+    </linearGradient>
+    <linearGradient
+       x1="256.82611"
+       y1="-4.6747174"
+       x2="6.5058327"
+       y2="313.66761"
+       id="linearGradient-3"
+       gradientTransform="scale(1.9315078,0.51773023)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#FFFFFF"
+         offset="0%"
+         id="stop16" />
+      <stop
+         stop-color="#B2B2B2"
+         offset="100%"
+         id="stop18" />
+    </linearGradient>
+  </defs>
+  <path
+     d="m 123.07789,178.16602 v -48.90431 c 0,-9.42553 -0.64594,-15.72199 -1.93781,-18.88959 -1.29189,-3.16761 -3.26765,-5.48532 -5.92742,-6.95322 -2.65974,-1.46791 -6.01603,-2.20185 -10.06898,-2.20185 -6.940684,0 -12.534126,3.61747 -21.534343,11.3948 -0.118821,2.67829 -0.06682,6.37452 -0.06682,10.54647 v 55.0077 H 67.679472 v -48.90431 c 0,-9.68306 -0.645923,-16.05679 -1.937812,-19.12136 -1.291868,-3.0646 -3.242324,-5.31793 -5.85141,-6.76008 -2.609087,-1.44216 -5.914733,-2.16322 -9.917005,-2.16322 -7.244659,0 -12.836728,4.14613 -21.753218,11.66594 v 65.28303 H 12.35689 V 88.750157 h 9.520107 l 3.165786,11.175806 c 10.183028,-8.652942 20.497441,-11.533759 29.565908,-11.533759 11.702904,0 20.24552,3.296302 24.349131,12.824846 11.044294,-9.528544 20.891655,-12.824846 30.821388,-12.824846 20.97934,0 29.16173,10.970527 29.16173,32.911916 v 56.8619 z M 180.81579,69.268391 H 166.01558 V 56.5825 h 14.80021 z m -1.03272,108.025479 h -15.1385 V 88.26006 h 15.1385 z m 26.03367,-4.42403 v -13.74305 c 0,0 17.5464,5.28579 27.4861,5.28579 9.51441,0 24.31462,1.05715 24.31462,-14.8002 0,-22.23589 -57.08651,7.4001 -56.02936,-37.00053 0.50531,-21.222646 21.14316,-24.159515 34.03279,-24.159515 12.88964,0 24.19442,0.880232 34.0501,2.928454 v 14.676671 c 0,0 -17.06389,-5.07434 -26.85374,-5.07434 -9.51441,0 -26.42894,0.51348 -26.42894,11.62873 0,11.11526 4.21414,12.68589 21.1359,12.68589 16.92178,0 35.95062,2.11432 35.95062,25.3718 0,22.40868 -19.02884,25.37178 -34.88621,26.42893 -12.69719,0.84649 -22.20031,-2.11431 -32.77188,-4.22863 z m 88.34422,-33.02065 -0.0841,-34.4496 0.0841,-8.91977 V 74.234091 h 10.49396 l 4.22865,13.788468 h 20.6292 v 13.148401 h -20.6292 v 19.71021 c 0,7.35059 0,27.67404 0,35.07415 0,7.4001 11.34418,8.45726 19.71108,8.45726 v 12.6172 c -5.99904,1.0764 -22.34794,1.12585 -27.63373,-5.21709 -6.71157,-8.05391 -6.79996,-16.06476 -6.79996,-31.9635 z m 109.17031,37.45361 h -21.122 V 88.649558 h 21.122 z m 26.5784,-11.86586 c -7.7362,-7.82142 -11.60425,-18.68703 -11.60425,-32.59713 0,-13.95823 3.90525,-24.85993 11.71584,-32.70542 7.8106,-7.845503 18.6337,-11.768192 32.46962,-12.285629 13.93508,0.517437 24.78298,4.440126 32.544,12.285629 7.76099,7.84549 11.64144,18.74719 11.64144,32.70542 0,13.9101 -3.88045,24.77571 -11.64144,32.59713 -7.76102,7.82143 -18.60892,11.73208 -32.544,12.18565 -13.9847,-0.45357 -24.84499,-4.36422 -32.58121,-12.18565 z m 12.45537,-33.90681 c 0,19.10834 6.59796,25.7505 19.26456,25.7505 12.66663,0 20.00993,-6.64216 20.00993,-25.7505 0,-19.49339 -9.45761,-23.64787 -20.00993,-23.64787 -10.55228,0 -19.26456,4.15448 -19.26456,23.64787 z m -86.96049,47.68266 c 6.71429,0 12.15731,-5.44301 12.15731,-12.15732 0,-6.7143 -5.44302,-12.15731 -12.15731,-12.15731 -6.7143,0 -12.15732,5.44301 -12.15732,12.15731 0,6.71431 5.44302,12.15732 12.15732,12.15732 z"
+     id="mist.io"
+     sketch:type="MSShapeGroup"
+     inkscape:connector-curvature="0"
+     style="fill:#000000;fill-rule:evenodd;stroke:none;stroke-width:2.11431527" />
+</svg>
