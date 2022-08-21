@@ -7,5 +7,5 @@ if ! diff -q package.json /package.json; then
     npm install
 fi
 
-web-dev-server --host 0.0.0.0 --port 8000 --event-stream false --node-resolve --compatibility none
+web-dev-server --port 80  -b /portal/
 #exec nginx

@@ -11,20 +11,17 @@ export default class CreateOrg extends connect(store)(LitElement) {
     return css`
       :host {
         height: 100%;
-        padding: 0;
-        margin: 0;
-        display: -webkit-box;
-        display: -moz-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
+        padding: 0px;
+        margin: 0px;
         display: flex;
-        align-items: baseline;
+        align-items: center;
         justify-content: center;
       }
 
       mist-form {
         margin: 10% auto;
-        max-width: 180px;
+        max-width: 280px;
+        align-items: center;
       }
     `;
   }
@@ -48,6 +45,17 @@ export default class CreateOrg extends connect(store)(LitElement) {
       logo: {
         'ui:options': {
           accept: 'image/*',
+        },
+      },
+      vault: {
+        external: {
+          'ui:widget': 'toggle',
+        },
+        auth_method: {
+          'ui:widget': 'radio',
+        },
+        'ui:options': {
+          style: 'border-left: none; padding: 0;',
         },
       },
       'ui:cancel': 'Back',

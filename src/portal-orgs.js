@@ -32,7 +32,20 @@ export default class PortalOrgs extends connect(store)(LitElement) {
 
       vaadin-button#createOrg {
         width: 100%;
-        margin-top: 100px;
+        margin-top: 40px;
+      }
+
+      vaadin-list-box {
+        max-height: 250px;
+        overflow: auto;
+      }
+
+      a:link,
+      a:visited,
+      a:hover,
+      a:active {
+        text-decoration: none;
+        color: inherit;
       }
     `;
   }
@@ -85,25 +98,29 @@ export default class PortalOrgs extends connect(store)(LitElement) {
             >
               ${this.orgs.map(
                 org => html`
-                  <vaadin-item style="line-height: var(--lumo-line-height-m);">
-                    <vaadin-horizontal-layout
-                      style="align-items: center;"
-                      theme="spacing"
+                  <a href="${`/portal/orgs/${org.name}`}">
+                    <vaadin-item
+                      style="line-height: var(--lumo-line-height-m);"
                     >
-                      <vaadin-avatar
-                        .img="${org.avatar}"
-                        .name="${`${org.name}`}"
-                      ></vaadin-avatar>
-                      <vaadin-vertical-layout>
-                        <span> ${org.name} </span>
-                        <span
-                          style="color: var(--lumo-secondary-text-color); font-size: var(--lumo-font-size-s);"
-                        >
-                          ${org.description}
-                        </span>
-                      </vaadin-vertical-layout>
-                    </vaadin-horizontal-layout>
-                  </vaadin-item>
+                      <vaadin-horizontal-layout
+                        style="align-items: center;"
+                        theme="spacing"
+                      >
+                        <vaadin-avatar
+                          .img="${org.avatar}"
+                          .name="${`${org.name}`}"
+                        ></vaadin-avatar>
+                        <vaadin-vertical-layout>
+                          <span> ${org.name} </span>
+                          <span
+                            style="color: var(--lumo-secondary-text-color); font-size: var(--lumo-font-size-s);"
+                          >
+                            ${org.description}
+                          </span>
+                        </vaadin-vertical-layout>
+                      </vaadin-horizontal-layout>
+                    </vaadin-item>
+                  </a>
                   <hr />
                 `
               )}
@@ -116,6 +133,7 @@ export default class PortalOrgs extends connect(store)(LitElement) {
         ${orgList}
         <vaadin-button
           id="createOrg"
+          theme="primary"
           ?hidden=${this.createOrgFormVisible}
           @click=${() => {
             Router.go(`/portal/+create-org`);

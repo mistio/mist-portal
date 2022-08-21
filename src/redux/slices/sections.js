@@ -22,8 +22,8 @@ const sectionsSlice = createSlice({
       'tunnels',
       'schedules',
       'rules',
-      'teams',
       'members',
+      'teams',
     ],
     map: {
       dashboard: {
@@ -202,7 +202,7 @@ const sectionsSlice = createSlice({
       members: {
         id: 'members',
         color: '#607D8B',
-        icon: 'social:people',
+        icon: 'social:person',
         sidebar: true,
       },
       insights: {

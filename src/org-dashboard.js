@@ -73,12 +73,10 @@ export default class OrgDashboard extends connect(store)(LitElement) {
   }
 
   onAfterEnter() {
-    const pathArray = document.location.pathname.split('/');
-    if (pathArray.length >= 4) {
-      [, , , this.orgName] = pathArray;
-      store.dispatch(orgSelected(this.orgName));
-      this._fetchOrg(this.orgName);
-    }
+    this.orgName =
+      this.parentElement.parentNode.host.router.location.params.org;
+    store.dispatch(orgSelected(this.orgName));
+    this._fetchOrg(this.orgName);
   }
 
   stateChanged(state) {
@@ -105,7 +103,7 @@ export default class OrgDashboard extends connect(store)(LitElement) {
         >
           <div>
             <a href="/portal" class="logo-link">
-              <img src="/assets/mist-logo-inverted.svg" alt="" />
+              <img src="assets/mist-logo-inverted.svg" alt="" />
             </a>
             <vaadin-select
               id="selectOrg"
@@ -135,7 +133,11 @@ export default class OrgDashboard extends connect(store)(LitElement) {
   async _fetchOrg(id) {
     if (id) {
       const data = await (
-        await fetch(`/api/v2/orgs/${id}?summary=true`)
+        await fetch(`/api/v2/orgs/${id}?summary=true`, {
+          headers: {
+            'X-Org': id,
+          },
+        })
       ).json();
       store.dispatch(orgUpdated(data));
     }

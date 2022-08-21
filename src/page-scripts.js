@@ -10,7 +10,7 @@ import reduxDataProvider from './redux/data-provider.js';
 import { nameRenderer, tagsRenderer } from './renderers.js';
 
 /* eslint-disable class-methods-use-this */
-export default class PageKeys extends connect(store)(LitElement) {
+export default class PageScripts extends connect(store)(LitElement) {
   static get styles() {
     return css`
       :host {
@@ -45,7 +45,7 @@ export default class PageKeys extends connect(store)(LitElement) {
 
   constructor() {
     super();
-    this.name = 'keys';
+    this.name = 'scripts';
     const state = store.getState();
     this.orgName = state.org.name;
     this.dataProvider = reduxDataProvider.bind(this);
@@ -56,12 +56,6 @@ export default class PageKeys extends connect(store)(LitElement) {
     this.selectedItems = [];
     this.actions = [
       {
-        name: () => `Rename`,
-        theme: 'secondary',
-        condition: items => items.length === 1,
-        run: () => {},
-      },
-      {
         name: () => `Remove`,
         theme: 'secondary error',
         icon: html``,
@@ -69,10 +63,10 @@ export default class PageKeys extends connect(store)(LitElement) {
         condition: items => items.length,
       },
       {
-        name: () => 'Add key',
+        name: () => 'Add script',
         theme: 'primary',
         icon: html``,
-        run: () => () => Router.go(`/portal/orgs/${this.orgName}/keys/+add`),
+        run: () => () => Router.go(`/portal/orgs/${this.orgName}/scripts/+add`),
         condition: items => !items.length,
       },
     ];
@@ -86,21 +80,23 @@ export default class PageKeys extends connect(store)(LitElement) {
 
   render() {
     return html` <mist-list
-      name="keys"
+      name="scripts"
       searchable
       selectable
       .dataProvider=${reduxDataProvider}
       .frozenColumns=${['name']}
       .actions=${this.actions}
       .renderers=${this.renderers}
-      .visibleColumns=${['tags', 'owned_by', 'created_by']}
+      .visibleColumns=${['provider', 'tags', 'owned_by', 'created_by']}
       @active-item-changed=${e => {
         if (e.detail.value)
-          Router.go(`/portal/orgs/${this.orgName}/keys/${e.detail.value.id}`);
+          Router.go(
+            `/portal/orgs/${this.orgName}/scripts/${e.detail.value.id}`
+          );
       }}
     >
     </mist-list>`;
   }
 }
 
-customElements.define('page-keys', PageKeys);
+customElements.define('page-scripts', PageScripts);

@@ -346,8 +346,6 @@ export default class MistSidebar extends connect(store)(LitElement) {
       },
       current: {
         type: String,
-        value: '',
-        notify: true,
       },
       tag: {
         type: String,
@@ -374,9 +372,43 @@ export default class MistSidebar extends connect(store)(LitElement) {
     };
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener(
+      'vaadin-router-go',
+      this._handlePageChange.bind(this)
+    );
+    this._handlePageChange({}, document.location.pathname);
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener(
+      'vaadin-router-go',
+      this._handlePageChange.bind(this)
+    );
+    super.disconnectedCallback();
+  }
+
+  _handlePageChange(e, path) {
+    if (path === undefined) {
+      // eslint-disable-next-line no-param-reassign
+      path = e.detail.pathname;
+    }
+    for (const i of this.sectionsArray) {
+      if (path.indexOf(i.id) > -1) {
+        this.current = i.id;
+        this.requestUpdate();
+        break;
+      }
+    }
+  }
+
   render() {
     return html` <nav>
-      <vaadin-tabs orientation="vertical">
+      <vaadin-tabs
+        orientation="vertical"
+        .selected=${this.sectionsArray.findIndex(i => i.id === this.current)}
+      >
         ${this.sectionsArray.map(
           item => html`
             <vaadin-tab>
@@ -435,7 +467,6 @@ export default class MistSidebar extends connect(store)(LitElement) {
   }
 
   stateChanged(state) {
-    // debugger;
     if (
       !this.sectionsArray ||
       !this.sectionsArray.length ||

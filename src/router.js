@@ -1,26 +1,4 @@
-import { LitElement, html, css } from 'lit';
-import '@vaadin/vaadin-lumo-styles/all-imports';
-import '@vaadin/vaadin-lumo-styles/color';
-import '@vaadin/vaadin-lumo-styles/presets/compact.js';
-import '@vaadin/polymer-legacy-adapter/style-modules.js';
-
-import '@vaadin/app-layout/theme/lumo/vaadin-app-layout';
-import '@vaadin/app-layout/theme/lumo/vaadin-drawer-toggle.js';
-import '@vaadin/app-layout/theme/lumo/vaadin-drawer-toggle-styles.js';
-import '@vaadin/icons';
-import '@vaadin/avatar';
-
 import { Router } from '@vaadin/router';
-
-import './mist-sidebar.js';
-// import './app-icons/app-icons.js';
-// import './mist-icons.js';
-// import { configUpdated } from './redux/slices/config.js';
-
-import { connect } from 'pwa-helpers/connect-mixin.js';
-import { store } from './redux/store.js';
-import { authUpdated } from './redux/slices/auth.js';
-import { orgSelected } from './redux/slices/org.js';
 
 const routes = [
   {
@@ -150,7 +128,7 @@ const routes = [
         },
       },
       {
-        path: 'keys/:key',
+        path: 'keys/:cloud',
         component: 'key-page',
         action: async () => {
           await import('./key-page.js');
@@ -171,7 +149,7 @@ const routes = [
         },
       },
       {
-        path: 'secrets/:secret',
+        path: 'secrets/:cloud',
         component: 'secret-page',
         action: async () => {
           await import('./secret-page.js');
@@ -237,93 +215,8 @@ const routes = [
   },
 ];
 
-document.documentElement.setAttribute('theme', 'dark');
-
-export class MistPortal extends connect(store)(LitElement) {
-  static get properties() {
-    return {
-      title: { type: String },
-      fullscreen: { type: Boolean },
-      currentOrg: { type: String },
-    };
-  }
-
-  static get styles() {
-    return css`
-      div#main {
-        height: 100%;
-        padding: 0 3%;
-      }
-      vaadin-app-layout {
-        --lumo-base-color: #222;
-      }
-      vaadin-drawer-toggle {
-        --lumo-primary-text-color: #fff;
-        margin: 8px;
-      }
-
-      a.logo-link > img {
-        margin-top: 4px;
-      }
-    `;
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  get state() {
-    return store.getState();
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  go(to) {
-    return Router.go(to);
-  }
-
-  constructor() {
-    super();
-    this.title = 'Mist portal';
-    this.currentOrg = '';
-    // this.Router = Router;
-    (async () => {
-      const response = await (await fetch(`/api/v2/auth`)).json();
-
-      store.dispatch(authUpdated(response));
-      let orgName = '';
-      const pathArray = document.location.pathname.split('/');
-      if (pathArray.length >= 3) {
-        [, , orgName] = pathArray;
-        if (!response.data.orgs.find(i => i.name === orgName)) {
-          Router.go('/portal');
-        }
-        store.dispatch(orgSelected(orgName));
-      } else if (
-        response.data.orgs.length === 1 &&
-        this.state.org.name === undefined
-      ) {
-        orgName = response.data.orgs[0].name; // TODO: get last_active instead of first
-        store.dispatch(orgSelected(orgName));
-        const targetPath = `/portal/${orgName}`;
-        if (document.location.pathname !== targetPath) {
-          Router.go(targetPath);
-        }
-      }
-    })();
-  }
-
-  stateChanged(state) {
-    if (!this.currentOrg && state.org.name) {
-      this.currentOrg = state.org.name;
-    }
-  }
-
-  firstUpdated() {
-    this.router = new Router(this.shadowRoot.querySelector('div#main'));
-    this.router.setRoutes(routes);
-    window.router = this.router;
-  }
-
-  render() {
-    return html` <div id="main"></div> `;
-  }
-}
-
-customElements.define('mist-portal', MistPortal);
+const router = new Router(
+  document.querySelector('mist-portal').shadowRoot.querySelector('div#main')
+);
+router.setRoutes(routes);
+export { router };

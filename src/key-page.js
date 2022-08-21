@@ -4,7 +4,7 @@ import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from './redux/store.js';
 
 /* eslint-disable class-methods-use-this */
-export default class CloudPage extends connect(store)(LitElement) {
+export default class KeyPage extends connect(store)(LitElement) {
   static get styles() {
     return css``;
   }
@@ -14,4 +14,4 @@ export default class CloudPage extends connect(store)(LitElement) {
   }
 }
 
-customElements.define('cloud-page', CloudPage);
+customElements.define('key-page', KeyPage);

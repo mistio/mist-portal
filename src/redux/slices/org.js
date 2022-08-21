@@ -4,6 +4,22 @@ const orgSlice = createSlice({
   name: 'org',
   initialState: {},
   reducers: {
+    itemUpdated(state, action) {
+      const target = `${action.payload.meta.kind}s`;
+      if (!(target in state)) {
+        // eslint-disable-next-line no-param-reassign
+        state[target] = {};
+      }
+      if (!('data' in state[target])) {
+        // eslint-disable-next-line no-param-reassign
+        state[target].data = { arr: [], obj: {} };
+      }
+      // eslint-disable-next-line no-param-reassign
+      state[target].data.obj[action.payload.data.id] = JSON.parse(
+        JSON.stringify(action.payload.data)
+      );
+      return state;
+    },
     sectionUpdated(state, action) {
       // Init new state with old state values
       const ret = {
@@ -44,6 +60,9 @@ const orgSlice = createSlice({
 
     orgUpdated(state, action) {
       const org = action.payload.data;
+      if (org === undefined) {
+        return {};
+      }
       const newState = {
         id: org.id,
         name: org.name,
@@ -66,5 +85,6 @@ const orgSlice = createSlice({
   },
 });
 
-export const { orgSelected, orgUpdated, sectionUpdated } = orgSlice.actions;
+export const { orgSelected, orgUpdated, sectionUpdated, itemUpdated } =
+  orgSlice.actions;
 export default orgSlice.reducer;

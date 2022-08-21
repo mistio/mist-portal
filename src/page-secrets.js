@@ -1,4 +1,6 @@
+/* eslint-disable lit/binding-positions */
 import { LitElement, html, css } from 'lit';
+import { repeat } from 'lit/directives/repeat.js';
 import '@vaadin/button';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { Router } from '@vaadin/router';
@@ -7,10 +9,10 @@ import '@vaadin/grid';
 
 import { store } from './redux/store.js';
 import reduxDataProvider from './redux/data-provider.js';
-import { nameRenderer, tagsRenderer } from './renderers.js';
+import { actions } from './secret-actions.js';
 
 /* eslint-disable class-methods-use-this */
-export default class PageImages extends connect(store)(LitElement) {
+export default class PageSecrets extends connect(store)(LitElement) {
   static get styles() {
     return css`
       :host {
@@ -37,52 +39,20 @@ export default class PageImages extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      action: { type: Array },
+      actions: { type: Array },
       orgName: { type: String },
-      selectedItems: { type: Array },
       listHeight: { type: Number },
     };
   }
 
   constructor() {
     super();
-    this.name = 'images';
+    this.name = 'secrets';
     const state = store.getState();
     this.orgName = state.org.name;
     this.dataProvider = reduxDataProvider.bind(this);
-    this.renderers = {
-      name: nameRenderer,
-      tags: tagsRenderer,
-    };
-    this.selectedItems = [];
-    this.actions = [
-      {
-        name: () => `Edit credentials`,
-        theme: 'secondary',
-        condition: items => items.length === 1,
-        run: () => {},
-      },
-      {
-        name: () => `Rename`,
-        theme: 'secondary',
-        condition: items => items.length === 1,
-        run: () => {},
-      },
-      {
-        name: () => `Remove`,
-        theme: 'secondary error',
-        icon: html``,
-        run: () => () => {},
-        condition: items => items.length,
-      },
-      {
-        name: () => 'Add image',
-        theme: 'primary',
-        icon: html``,
-        run: () => () => Router.go(`/portal/orgs/${this.orgName}/images/+add`),
-        condition: items => !items.length,
-      },
-    ];
+    this.renderers = this._getRenderers();
+    this.actions = actions;
     this._handleResize();
   }
 
@@ -100,30 +70,60 @@ export default class PageImages extends connect(store)(LitElement) {
     this.listHeight = window.innerHeight - 200;
   }
 
+  _getRenderers() {
+    // const _this = this;
+    return {
+      name: {
+        body: row => html`<strong class="name">${row.name}</strong>`,
+      },
+      tags: {
+        body: row =>
+          html`${repeat(
+            Object.keys(row.tags),
+            key => key,
+            key => html` <strong>${key}=${row.tags[key]}</strong>`
+          )}`,
+      },
+    };
+  }
+
   stateChanged(state) {
-    if (!this.orgName.length && state.org && state.org.name) {
+    if (!this.orgName && state.org && state.org.name) {
       this.orgName = state.org.name;
     }
   }
 
+  get list() {
+    return this.shadowRoot.querySelector('mist-list');
+  }
+
   render() {
     return html` <mist-list
-      style="height: ${this.listHeight}px"
-      name="images"
+      name="secrets"
       searchable
       selectable
+      treeView
       .dataProvider=${reduxDataProvider}
       .frozenColumns=${['name']}
       .actions=${this.actions}
       .renderers=${this.renderers}
-      .visibleColumns=${['cloud', 'tags', 'owned_by', 'created_by']}
+      .visibleColumns=${['tags']}
       @active-item-changed=${e => {
-        if (e.detail.value)
-          Router.go(`/portal/orgs/${this.orgName}/images/${e.detail.value.id}`);
+        if (e.detail.value) {
+          if (e.detail.value.name.endsWith('/')) {
+            this.list.shadowRoot
+              .querySelector('vaadin-grid#grid')
+              .expandItem(e.detail.value);
+          } else {
+            Router.go(
+              `/portal/orgs/${this.orgName}/secrets/${e.detail.value.id}`
+            );
+          }
+        }
       }}
     >
     </mist-list>`;
   }
 }
 
-customElements.define('page-images', PageImages);
+customElements.define('page-secrets', PageSecrets);

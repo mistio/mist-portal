@@ -10,7 +10,7 @@ import reduxDataProvider from './redux/data-provider.js';
 import { nameRenderer, tagsRenderer } from './renderers.js';
 
 /* eslint-disable class-methods-use-this */
-export default class PageKeys extends connect(store)(LitElement) {
+export default class PageVolumes extends connect(store)(LitElement) {
   static get styles() {
     return css`
       :host {
@@ -40,12 +40,13 @@ export default class PageKeys extends connect(store)(LitElement) {
       action: { type: Array },
       orgName: { type: String },
       selectedItems: { type: Array },
+      listHeight: { type: Number },
     };
   }
 
   constructor() {
     super();
-    this.name = 'keys';
+    this.name = 'volumes';
     const state = store.getState();
     this.orgName = state.org.name;
     this.dataProvider = reduxDataProvider.bind(this);
@@ -56,12 +57,6 @@ export default class PageKeys extends connect(store)(LitElement) {
     this.selectedItems = [];
     this.actions = [
       {
-        name: () => `Rename`,
-        theme: 'secondary',
-        condition: items => items.length === 1,
-        run: () => {},
-      },
-      {
         name: () => `Remove`,
         theme: 'secondary error',
         icon: html``,
@@ -69,13 +64,29 @@ export default class PageKeys extends connect(store)(LitElement) {
         condition: items => items.length,
       },
       {
-        name: () => 'Add key',
+        name: () => 'Create volume',
         theme: 'primary',
         icon: html``,
-        run: () => () => Router.go(`/portal/orgs/${this.orgName}/keys/+add`),
+        run: () => () =>
+          Router.go(`/portal/orgs/${this.orgName}/volumes/+create`),
         condition: items => !items.length,
       },
     ];
+    this._handleResize();
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener('resize', this._handleResize.bind(this));
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener('resize', this._handleResize.bind(this));
+    super.disconnectedCallback();
+  }
+
+  _handleResize() {
+    this.listHeight = window.innerHeight - 200;
   }
 
   stateChanged(state) {
@@ -86,21 +97,24 @@ export default class PageKeys extends connect(store)(LitElement) {
 
   render() {
     return html` <mist-list
-      name="keys"
+      style="height: ${this.listHeight}px"
+      name="volumes"
       searchable
       selectable
       .dataProvider=${reduxDataProvider}
       .frozenColumns=${['name']}
       .actions=${this.actions}
       .renderers=${this.renderers}
-      .visibleColumns=${['tags', 'owned_by', 'created_by']}
+      .visibleColumns=${['provider', 'tags', 'owned_by', 'created_by']}
       @active-item-changed=${e => {
         if (e.detail.value)
-          Router.go(`/portal/orgs/${this.orgName}/keys/${e.detail.value.id}`);
+          Router.go(
+            `/portal/orgs/${this.orgName}/volumes/${e.detail.value.id}`
+          );
       }}
     >
     </mist-list>`;
   }
 }
 
-customElements.define('page-keys', PageKeys);
+customElements.define('page-volumes', PageVolumes);
