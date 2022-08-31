@@ -136,7 +136,7 @@ export default class PortalOrgs extends connect(store)(LitElement) {
           theme="primary"
           ?hidden=${this.createOrgFormVisible}
           @click=${() => {
-            Router.go(`/portal/+create-org`);
+            Router.go(`/portal/orgs/+create`);
           }}
           >Create organization</vaadin-button
         >

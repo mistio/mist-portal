@@ -35,10 +35,10 @@ const routes = [
     },
   },
   {
-    path: '/+create-org',
-    component: 'create-org',
+    path: '/orgs/+create',
+    component: 'org-create',
     action: async () => {
-      await import('./create-org.js');
+      await import('./org-create.js');
     },
   },
   {

@@ -6,7 +6,7 @@ import { store } from './redux/store.js';
 // eslint-disable-next-line import/no-named-as-default
 import BASE_API_SPEC from './config.js';
 /* eslint-disable class-methods-use-this */
-export default class CreateOrg extends connect(store)(LitElement) {
+export default class OrgCreate extends connect(store)(LitElement) {
   static get styles() {
     return css`
       :host {
@@ -79,4 +79,4 @@ export default class CreateOrg extends connect(store)(LitElement) {
   }
 }
 
-customElements.define('create-org', CreateOrg);
+customElements.define('org-create', OrgCreate);
