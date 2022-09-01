@@ -1,5 +1,4 @@
 import { LitElement, html, css } from 'lit';
-import { Router } from '@vaadin/router';
 import '@mistio/mist-form/mist-form.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from './redux/store.js';
@@ -69,10 +68,24 @@ export default class OrgCreate extends connect(store)(LitElement) {
       .jsonSchema=${this.jsonSchema}
       .uiSchema=${this.uiSchema}
       @mist-form-cancel=${() => {
-        Router.go('/portal/orgs');
+        this.dispatchEvent(
+          new CustomEvent('go', {
+            detail: { value: 'orgs' },
+            bubbles: true,
+            composed: true,
+          })
+        );
       }}
       @response=${e => {
-        Router.go(`/portal/orgs/${JSON.parse(e.detail.target.response).name}`);
+        this.dispatchEvent(
+          new CustomEvent('go', {
+            detail: {
+              value: `orgs/${JSON.parse(e.detail.target.response).name}`,
+            },
+            bubbles: true,
+            composed: true,
+          })
+        );
       }}
       .responsiveSteps=${[{ minWidth: '0', columns: 1, labelsPosition: 'top' }]}
     ></mist-form>`;

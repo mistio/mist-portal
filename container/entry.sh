@@ -7,5 +7,5 @@ if ! diff -q package.json /package.json; then
     npm install
 fi
 
-web-dev-server --port 80  -b /portal/
-#exec nginx
+web-dev-server -b /portal-dev/ &
+exec nginx

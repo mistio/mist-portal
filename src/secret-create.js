@@ -1,5 +1,4 @@
 import { LitElement, html, css } from 'lit';
-import { Router } from '@vaadin/router';
 
 import '@mistio/mist-form/mist-form.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
@@ -94,10 +93,16 @@ export default class SecretCreate extends connect(store)(LitElement) {
           window.history.back();
         }}
         @response=${e => {
-          Router.go(
-            `/portal/orgs/${this.orgName}/secrets/${
-              JSON.parse(e.detail.target.response).id
-            }`
+          this.dispatchEvent(
+            new CustomEvent('go', {
+              detail: {
+                value: `orgs/${this.orgName}/secrets/${
+                  JSON.parse(e.detail.target.response).id
+                }`,
+              },
+              bubbles: true,
+              composed: true,
+            })
           );
         }}
       ></mist-form>

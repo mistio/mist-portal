@@ -101,6 +101,14 @@ const routes = [
         },
       },
       {
+        path: 'machines/:machine',
+        component: 'machine-page',
+        action: async () => {
+          await import('./machine-page.js');
+        },
+      },
+
+      {
         path: 'volumes',
         component: 'page-volumes',
         action: async () => {
@@ -275,24 +283,27 @@ export class MistPortal extends connect(store)(LitElement) {
 
   // eslint-disable-next-line class-methods-use-this
   go(to) {
-    return Router.go(to);
+    if (to && to.detail && to.detail.value) {
+      // eslint-disable-next-line no-param-reassign
+      to = to.detail.value;
+    }
+    return Router.go(`${this.router.baseUrl}${to}`);
   }
 
   constructor() {
     super();
     this.title = 'Mist portal';
     this.currentOrg = '';
-    // this.Router = Router;
     (async () => {
       const response = await (await fetch(`/api/v2/auth`)).json();
 
       store.dispatch(authUpdated(response));
       let orgName = '';
       const pathArray = document.location.pathname.split('/');
-      if (pathArray.length >= 3) {
-        [, , orgName] = pathArray;
+      if (pathArray.length >= 4) {
+        [, , , orgName] = pathArray;
         if (!response.data.orgs.find(i => i.name === orgName)) {
-          Router.go('/portal');
+          this.go('');
         }
         store.dispatch(orgSelected(orgName));
       } else if (
@@ -301,12 +312,21 @@ export class MistPortal extends connect(store)(LitElement) {
       ) {
         orgName = response.data.orgs[0].name; // TODO: get last_active instead of first
         store.dispatch(orgSelected(orgName));
-        const targetPath = `/portal/${orgName}`;
-        if (document.location.pathname !== targetPath) {
-          Router.go(targetPath);
+        if (document.location.pathname.indexOf(orgName) === -1) {
+          this.go(`orgs/${orgName}`);
         }
       }
     })();
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener('go', this.go.bind(this));
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener('go', this.go.bind(this));
+    super.disconnectedCallback();
   }
 
   stateChanged(state) {

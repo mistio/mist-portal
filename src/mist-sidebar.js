@@ -416,7 +416,7 @@ export default class MistSidebar extends connect(store)(LitElement) {
                 id="${item.id}"
                 class="section"
                 @tap="${this.clearSearch}"
-                href="/portal/orgs/${this.orgName}/${item.id}"
+                href="./orgs/${this.orgName}/${item.id}"
                 ?hidden="${item.hideZero && item.count === 0}"
                 ?active="${this.current === item.id}"
                 tabindex="0"

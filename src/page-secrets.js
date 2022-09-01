@@ -3,7 +3,6 @@ import { LitElement, html, css } from 'lit';
 import { repeat } from 'lit/directives/repeat.js';
 import '@vaadin/button';
 import { connect } from 'pwa-helpers/connect-mixin.js';
-import { Router } from '@vaadin/router';
 import '@mistio/mist-list/mist-list.js';
 import '@vaadin/grid';
 
@@ -115,8 +114,14 @@ export default class PageSecrets extends connect(store)(LitElement) {
               .querySelector('vaadin-grid#grid')
               .expandItem(e.detail.value);
           } else {
-            Router.go(
-              `/portal/orgs/${this.orgName}/secrets/${e.detail.value.id}`
+            this.dispatchEvent(
+              new CustomEvent('go', {
+                detail: {
+                  value: `orgs/${this.orgName}/secrets/${e.detail.value.id}`,
+                },
+                bubbles: true,
+                composed: true,
+              })
             );
           }
         }

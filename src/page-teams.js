@@ -1,7 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import '@vaadin/button';
 import { connect } from 'pwa-helpers/connect-mixin.js';
-import { Router } from '@vaadin/router';
 import '@mistio/mist-list/mist-list.js';
 import '@vaadin/grid';
 
@@ -63,7 +62,15 @@ export default class PageTeams extends connect(store)(LitElement) {
         theme: 'primary',
         icon: html``,
         run: () => () =>
-          Router.go(`/portal/orgs/${this.orgName}/teams/+create`),
+          this.dispatchEvent(
+            new CustomEvent('go', {
+              detail: {
+                value: `orgs/${this.orgName}/teams/+create`,
+              },
+              bubbles: true,
+              composed: true,
+            })
+          ),
         condition: items => !items.length,
       },
     ];
@@ -94,8 +101,17 @@ export default class PageTeams extends connect(store)(LitElement) {
       .renderers=${this.renderers}
       .visibleColumns=${['provider', 'tags', 'owned_by', 'created_by']}
       @active-item-changed=${e => {
-        if (e.detail.value)
-          Router.go(`/portal/orgs/${this.orgName}/teams/${e.detail.value.id}`);
+        if (e.detail.value) {
+          this.dispatchEvent(
+            new CustomEvent('go', {
+              detail: {
+                value: `orgs/${this.orgName}/teams/${e.detail.value.id}`,
+              },
+              bubbles: true,
+              composed: true,
+            })
+          );
+        }
       }}
     >
     </mist-list>`;

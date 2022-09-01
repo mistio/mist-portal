@@ -6,8 +6,6 @@ import '@vaadin/vertical-layout';
 import '@vaadin/avatar';
 import '@vaadin/text-field';
 
-import { Router } from '@vaadin/router';
-
 import '@mistio/mist-form/mist-form.js';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
@@ -94,11 +92,19 @@ export default class PortalOrgs extends connect(store)(LitElement) {
             <h3>Select organization</h3>
             <vaadin-list-box
               @selected-changed=${e =>
-                Router.go(`/portal/orgs/${this.orgs[e.target.selected].name}`)}
+                this.dispatchEvent(
+                  new CustomEvent('go', {
+                    detail: {
+                      value: `orgs/${this.orgs[e.target.selected].name}`,
+                    },
+                    bubbles: true,
+                    composed: true,
+                  })
+                )}
             >
               ${this.orgs.map(
                 org => html`
-                  <a href="${`/portal/orgs/${org.name}`}">
+                  <a href="${`./orgs/${org.name}`}">
                     <vaadin-item
                       style="line-height: var(--lumo-line-height-m);"
                     >
@@ -136,7 +142,15 @@ export default class PortalOrgs extends connect(store)(LitElement) {
           theme="primary"
           ?hidden=${this.createOrgFormVisible}
           @click=${() => {
-            Router.go(`/portal/orgs/+create`);
+            this.dispatchEvent(
+              new CustomEvent('go', {
+                detail: {
+                  value: `orgs/+create`,
+                },
+                bubbles: true,
+                composed: true,
+              })
+            );
           }}
           >Create organization</vaadin-button
         >

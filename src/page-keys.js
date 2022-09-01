@@ -1,7 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import '@vaadin/button';
 import { connect } from 'pwa-helpers/connect-mixin.js';
-import { Router } from '@vaadin/router';
 import '@mistio/mist-list/mist-list.js';
 import '@vaadin/grid';
 
@@ -72,7 +71,16 @@ export default class PageKeys extends connect(store)(LitElement) {
         name: () => 'Add key',
         theme: 'primary',
         icon: html``,
-        run: () => () => Router.go(`/portal/orgs/${this.orgName}/keys/+add`),
+        run: () => () =>
+          this.dispatchEvent(
+            new CustomEvent('go', {
+              detail: {
+                value: `orgs/${this.orgName}/keys/+add`,
+              },
+              bubbles: true,
+              composed: true,
+            })
+          ),
         condition: items => !items.length,
       },
     ];
@@ -95,8 +103,17 @@ export default class PageKeys extends connect(store)(LitElement) {
       .renderers=${this.renderers}
       .visibleColumns=${['tags', 'owned_by', 'created_by']}
       @active-item-changed=${e => {
-        if (e.detail.value)
-          Router.go(`/portal/orgs/${this.orgName}/keys/${e.detail.value.id}`);
+        if (e.detail.value) {
+          this.dispatchEvent(
+            new CustomEvent('go', {
+              detail: {
+                value: `orgs/${this.orgName}/keys/${e.detail.value.id}`,
+              },
+              bubbles: true,
+              composed: true,
+            })
+          );
+        }
       }}
     >
     </mist-list>`;

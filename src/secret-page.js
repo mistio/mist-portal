@@ -1,5 +1,4 @@
 import { LitElement, html, css } from 'lit';
-import { Router } from '@vaadin/router';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from './redux/store.js';
@@ -48,8 +47,17 @@ export default class SecretPage extends connect(store)(LitElement) {
           <vaadin-button
             theme="tertiary"
             @click=${() => {
-              if (this.orgName)
-                Router.go(`/portal/orgs/${this.orgName}/secrets`);
+              if (this.orgName) {
+                this.dispatchEvent(
+                  new CustomEvent('go', {
+                    detail: {
+                      value: `orgs/${this.orgName}/secrets`,
+                    },
+                    bubbles: true,
+                    composed: true,
+                  })
+                );
+              }
             }}
           >
             <vaadin-icon icon="vaadin:arrow-left"></vaadin-icon>

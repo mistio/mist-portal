@@ -1,5 +1,5 @@
 FROM node:16-alpine
-LABEL maintainer="support@mist.io"
+LABEL maintainer="dev@mist.io"
 
 RUN apk add --update --no-cache git nginx
 

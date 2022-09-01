@@ -1,5 +1,4 @@
 import { html } from 'lit';
-import { Router } from '@vaadin/router';
 import { store } from './redux/store.js';
 
 const actions = [
@@ -51,8 +50,20 @@ const actions = [
     name: () => 'Create secret',
     theme: 'primary',
     icon: html``,
-    run: () => () =>
-      Router.go(`/portal/orgs/${store.getState().org.name}/secrets/+create`),
+    // eslint-disable-next-line func-names
+    run() {
+      return function () {
+        this.dispatchEvent(
+          new CustomEvent('go', {
+            detail: {
+              value: `orgs/${this.orgName}/secrets/+create`,
+            },
+            bubbles: true,
+            composed: true,
+          })
+        );
+      };
+    },
     condition: items => !items.length,
   },
 ];

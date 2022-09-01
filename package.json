@@ -17,7 +17,7 @@
     "build": "rimraf dist && rollup -c rollup.config.js && npm run analyze -- --exclude dist && cd dist && ln -s ../assets && cd -",
     "start:build": "web-dev-server --root-dir dist --app-index index.html --open",
     "analyze": "cem analyze --litelement",
-    "start": "web-dev-server"
+    "start": "web-dev-server -b /portal-dev/ --open /portal-dev/"
   },
   "dependencies": {
     "@fingerprintjs/fingerprintjs": "^3.0.3",
@@ -142,6 +142,7 @@
     "@open-wc/testing": "next",
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-node-resolve": "^13.0.6",
+    "@rollup/plugin-replace": "^4.0.0",
     "@web/dev-server": "^0.1.28",
     "@web/dev-server-storybook": "next",
     "@web/rollup-plugin-html": "^1.10.1",

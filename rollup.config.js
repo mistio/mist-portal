@@ -23,6 +23,12 @@ export default {
       minify: true,
       injectServiceWorker: true,
       serviceWorkerPath: 'dist/sw.js',
+      transformHtml: [
+        // eslint-disable-next-line no-shadow
+        html => html.replace('/portal-dev/', '/portal/'),
+        // eslint-disable-next-line no-shadow
+        html => html.replace('"development"', '"production"'),
+      ],
     }),
     /** Resolve bare module imports */
     nodeResolve(),

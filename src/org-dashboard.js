@@ -3,8 +3,6 @@ import '@vaadin/select';
 import '@vaadin/text-field';
 import '@vaadin/vaadin-lumo-styles/presets/compact.js';
 
-import { Router } from '@vaadin/router';
-
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from './redux/store.js';
 import { orgUpdated, orgSelected } from './redux/slices/org.js';
@@ -102,7 +100,7 @@ export default class OrgDashboard extends connect(store)(LitElement) {
           ?hidden=${this.fullscreen}
         >
           <div>
-            <a href="/portal" class="logo-link">
+            <a href="./" class="logo-link">
               <img src="assets/mist-logo-inverted.svg" alt="" />
             </a>
             <vaadin-select
@@ -111,7 +109,13 @@ export default class OrgDashboard extends connect(store)(LitElement) {
               .items="${this.orgs.map(i => ({ label: i.name, value: i.name }))}"
               .value="${this.orgName}"
               @change=${e => {
-                Router.go(`/portal/orgs/${e.target.value}`);
+                this.dispatchEvent(
+                  new CustomEvent('go', {
+                    detail: { value: `orgs/${e.target.value}` },
+                    bubbles: true,
+                    composed: true,
+                  })
+                );
               }}
             ></vaadin-select>
           </div>
