@@ -2,6 +2,8 @@ import { LitElement, html, css } from 'lit';
 import '@mistio/mist-form/mist-form.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from './redux/store.js';
+import { orgSelected } from './redux/slices/org.js';
+
 // eslint-disable-next-line import/no-named-as-default
 import BASE_API_SPEC from './config.js';
 /* eslint-disable class-methods-use-this */
@@ -67,6 +69,7 @@ export default class OrgCreate extends connect(store)(LitElement) {
       method="POST"
       .jsonSchema=${this.jsonSchema}
       .uiSchema=${this.uiSchema}
+      .headers=${{}}
       @mist-form-cancel=${() => {
         this.dispatchEvent(
           new CustomEvent('go', {
@@ -77,10 +80,19 @@ export default class OrgCreate extends connect(store)(LitElement) {
         );
       }}
       @response=${e => {
+        const orgName = JSON.parse(e.detail.target.response).name;
+        this.dispatchEvent(
+          new CustomEvent('auth', {
+            detail: { value: 'orgs' },
+            bubbles: true,
+            composed: true,
+          })
+        );
+        store.dispatch(orgSelected(orgName));
         this.dispatchEvent(
           new CustomEvent('go', {
             detail: {
-              value: `orgs/${JSON.parse(e.detail.target.response).name}`,
+              value: `orgs/${orgName}`,
             },
             bubbles: true,
             composed: true,

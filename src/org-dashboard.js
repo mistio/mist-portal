@@ -82,8 +82,12 @@ export default class OrgDashboard extends connect(store)(LitElement) {
       this.orgName = state.org.name;
       this._fetchOrg(this.orgName);
     }
-    if (!this.orgs.length && state.orgs.meta && state.orgs.meta.total) {
-      this.orgs = state.orgs.data;
+    if (
+      state.auth &&
+      state.auth.data.orgs &&
+      state.auth.data.orgs.length !== this.orgs.length
+    ) {
+      this.orgs = state.auth.data.orgs;
     }
   }
 

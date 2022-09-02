@@ -295,9 +295,7 @@ export class MistPortal extends connect(store)(LitElement) {
     this.title = 'Mist portal';
     this.currentOrg = '';
     (async () => {
-      const response = await (await fetch(`/api/v2/auth`)).json();
-
-      store.dispatch(authUpdated(response));
+      const response = await this.auth();
       let orgName = '';
       const pathArray = document.location.pathname.split('/');
       if (pathArray.length >= 4) {
@@ -322,10 +320,12 @@ export class MistPortal extends connect(store)(LitElement) {
   connectedCallback() {
     super.connectedCallback();
     window.addEventListener('go', this.go.bind(this));
+    window.addEventListener('auth', this.auth);
   }
 
   disconnectedCallback() {
     window.removeEventListener('go', this.go.bind(this));
+    window.removeEventListener('auth', this.auth);
     super.disconnectedCallback();
   }
 
@@ -343,6 +343,13 @@ export class MistPortal extends connect(store)(LitElement) {
 
   render() {
     return html` <div id="main"></div> `;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async auth() {
+    const response = await (await fetch(`/api/v2/auth`)).json();
+    store.dispatch(authUpdated(response));
+    return response;
   }
 }
 
