@@ -1,7 +1,13 @@
 import { html } from 'lit';
+import { nameRenderer, tagsRenderer } from './renderers.js';
 import { store } from './redux/store.js';
 
-const actions = [
+const renderers = () => ({
+  name: nameRenderer,
+  tags: tagsRenderer,
+});
+
+const actions = parent => [
   {
     name: () => `Edit`,
     theme: 'secondary',
@@ -52,11 +58,11 @@ const actions = [
     icon: html``,
     // eslint-disable-next-line func-names
     run() {
-      return function () {
-        this.dispatchEvent(
+      return () => {
+        parent.dispatchEvent(
           new CustomEvent('go', {
             detail: {
-              value: `orgs/${this.orgName}/secrets/+create`,
+              value: `orgs/${parent.orgName}/secrets/+create`,
             },
             bubbles: true,
             composed: true,
@@ -68,4 +74,8 @@ const actions = [
   },
 ];
 
-export { actions };
+const visibleColumns = ['tags', 'owned_by', 'created_by'];
+
+const hierarchical = true;
+
+export { actions, renderers, visibleColumns, hierarchical };

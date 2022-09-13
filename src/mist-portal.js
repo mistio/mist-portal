@@ -52,10 +52,10 @@ const routes = [
     // },
     children: [
       {
-        path: 'clouds',
-        component: 'page-clouds',
+        path: ':section',
+        component: 'list-page',
         action: async () => {
-          await import('./page-clouds.js');
+          await import('./list-page.js');
         },
       },
       {
@@ -73,27 +73,6 @@ const routes = [
         },
       },
       {
-        path: 'stacks',
-        component: 'page-stacks',
-        action: async () => {
-          await import('./page-stacks.js');
-        },
-      },
-      {
-        path: 'clusters',
-        component: 'page-clusters',
-        action: async () => {
-          await import('./page-clusters.js');
-        },
-      },
-      {
-        path: 'machines',
-        component: 'page-machines',
-        action: async () => {
-          await import('./page-machines.js');
-        },
-      },
-      {
         path: 'machines/+create',
         component: 'machine-create',
         action: async () => {
@@ -105,49 +84,6 @@ const routes = [
         component: 'machine-page',
         action: async () => {
           await import('./machine-page.js');
-        },
-      },
-
-      {
-        path: 'volumes',
-        component: 'page-volumes',
-        action: async () => {
-          await import('./page-volumes.js');
-        },
-      },
-      {
-        path: 'buckets',
-        component: 'page-buckets',
-        action: async () => {
-          await import('./page-buckets.js');
-        },
-      },
-      {
-        path: 'networks',
-        component: 'page-networks',
-        action: async () => {
-          await import('./page-networks.js');
-        },
-      },
-      {
-        path: 'zones',
-        component: 'page-zones',
-        action: async () => {
-          await import('./page-zones.js');
-        },
-      },
-      {
-        path: 'images',
-        component: 'page-images',
-        action: async () => {
-          await import('./page-images.js');
-        },
-      },
-      {
-        path: 'keys',
-        component: 'page-keys',
-        action: async () => {
-          await import('./page-keys.js');
         },
       },
       {
@@ -165,13 +101,6 @@ const routes = [
         },
       },
       {
-        path: 'secrets',
-        component: 'page-secrets',
-        action: async () => {
-          await import('./page-secrets.js');
-        },
-      },
-      {
         path: 'secrets/+create',
         component: 'secret-create',
         action: async () => {
@@ -186,27 +115,6 @@ const routes = [
         },
       },
       {
-        path: 'scripts',
-        component: 'page-scripts',
-        action: async () => {
-          await import('./page-scripts.js');
-        },
-      },
-      {
-        path: 'templates',
-        component: 'page-templates',
-        action: async () => {
-          await import('./page-templates.js');
-        },
-      },
-      {
-        path: 'schedules',
-        component: 'page-schedules',
-        action: async () => {
-          await import('./page-schedules.js');
-        },
-      },
-      {
         path: 'schedules/+add',
         component: 'schedule-add',
         action: async () => {
@@ -214,31 +122,10 @@ const routes = [
         },
       },
       {
-        path: 'rules',
-        component: 'page-rules',
-        action: async () => {
-          await import('./page-rules.js');
-        },
-      },
-      {
         path: 'rules/+add',
         component: 'rule-add',
         action: async () => {
           await import('./rule-add.js');
-        },
-      },
-      {
-        path: 'members',
-        component: 'page-members',
-        action: async () => {
-          await import('./page-members.js');
-        },
-      },
-      {
-        path: 'teams',
-        component: 'page-teams',
-        action: async () => {
-          await import('./page-teams.js');
         },
       },
     ],
@@ -348,7 +235,11 @@ export class MistPortal extends connect(store)(LitElement) {
   // eslint-disable-next-line class-methods-use-this
   async auth() {
     const response = await (await fetch(`/api/v2/auth`)).json();
-    store.dispatch(authUpdated(response));
+    if (response.status === 401) {
+      document.location = '/';
+    } else {
+      store.dispatch(authUpdated(response));
+    }
     return response;
   }
 }
