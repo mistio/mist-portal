@@ -24,6 +24,13 @@ import { orgSelected } from './redux/slices/org.js';
 
 const routes = [
   {
+    path: '/orgs/+create',
+    component: 'org-create',
+    action: async () => {
+      await import('./org-create.js');
+    },
+  },
+  {
     path: '/',
     redirect: '/orgs',
   },
@@ -32,13 +39,6 @@ const routes = [
     component: 'portal-orgs',
     action: async () => {
       await import('./portal-orgs.js');
-    },
-  },
-  {
-    path: '/orgs/+create',
-    component: 'org-create',
-    action: async () => {
-      await import('./org-create.js');
     },
   },
   {
@@ -51,6 +51,13 @@ const routes = [
     //   debugger;
     // },
     children: [
+      {
+        path: '+settings',
+        component: 'org-settings',
+        action: async () => {
+          await import('./org-settings.js');
+        },
+      },
       {
         path: ':section',
         component: 'list-page',
@@ -66,10 +73,17 @@ const routes = [
         },
       },
       {
-        path: 'clouds/:cloud',
-        component: 'cloud-page',
+        path: 'clouds/:cloud/+edit',
+        component: 'cloud-edit',
         action: async () => {
-          await import('./cloud-page.js');
+          await import('./cloud-edit.js');
+        },
+      },
+      {
+        path: 'clusters/+create',
+        component: 'cluster-create',
+        action: async () => {
+          await import('./cluster-create.js');
         },
       },
       {
@@ -80,13 +94,6 @@ const routes = [
         },
       },
       {
-        path: 'machines/:machine',
-        component: 'machine-page',
-        action: async () => {
-          await import('./machine-page.js');
-        },
-      },
-      {
         path: 'keys/+add',
         component: 'key-add',
         action: async () => {
@@ -94,24 +101,10 @@ const routes = [
         },
       },
       {
-        path: 'keys/:key',
-        component: 'key-page',
-        action: async () => {
-          await import('./key-page.js');
-        },
-      },
-      {
         path: 'secrets/+create',
         component: 'secret-create',
         action: async () => {
           await import('./secret-create.js');
-        },
-      },
-      {
-        path: 'secrets/:secret',
-        component: 'secret-page',
-        action: async () => {
-          await import('./secret-page.js');
         },
       },
       {
@@ -126,6 +119,13 @@ const routes = [
         component: 'rule-add',
         action: async () => {
           await import('./rule-add.js');
+        },
+      },
+      {
+        path: ':section/:resource',
+        component: 'resource-page',
+        action: async () => {
+          await import('./resource-page.js');
         },
       },
     ],
@@ -148,9 +148,6 @@ export class MistPortal extends connect(store)(LitElement) {
       div#main {
         height: 100%;
         padding: 0 3%;
-      }
-      vaadin-app-layout {
-        --lumo-base-color: #222;
       }
       vaadin-drawer-toggle {
         --lumo-primary-text-color: #fff;

@@ -10,11 +10,21 @@ export default async function reduxDataProvider(opts, callback) {
   let url = `${baseurl}?start=${start}&limit=${opts.pageSize}`;
   const parentName = opts.parentItem ? opts.parentItem.name : null;
   if (parentName) {
-    url = `${url}&search=${encodeURIComponent(
-      `name=r"^${parentName}[^/]+/{0,1}$"`
-    )}`;
+    if (this.name === 'secrets') {
+      url = `${url}&search=${encodeURIComponent(
+        `name=r"^${parentName}[^/]+/{0,1}$"`
+      )}`;
+    } else {
+      url = `${url}&search=${encodeURIComponent(
+        `parent:${opts.parentItem.id}`
+      )}`;
+    }
   } else if (this.treeView) {
-    url = `${url}&search=${encodeURIComponent('name=r"^[^/]*/{0,1}$"')}`;
+    if (this.name === 'secrets') {
+      url = `${url}&search=${encodeURIComponent('name=r"^[^/]*/{0,1}$"')}`;
+    } else {
+      url = `${url}&search=${encodeURIComponent('parent:None')}`;
+    }
   } else if (this.combinedFilter) {
     url = `${url}&search=${this.combinedFilter}`;
   } else {
@@ -38,7 +48,16 @@ export default async function reduxDataProvider(opts, callback) {
           if (this.frozenColumns && this.frozenColumns.indexOf(k) === -1)
             this.allColumns.add(k);
         });
-        retval.push({ hasChildren: r.name.endsWith('/'), ...r });
+        const hasChildren = r.name.endsWith('/') || r.children;
+        retval.push({ hasChildren, ...r });
+        // Auto-detect hierarchical data
+        if ((hasChildren || r.parent) && !this.hierarchical) {
+          // Prevent updating treeView when updating hierarchical flag
+          const savedTreeView = this.treeView;
+          this.hierarchical = true;
+          this.performUpdate();
+          this.treeView = savedTreeView;
+        }
       });
       if (!this.visibleColumns || !this.visibleColumns.length) {
         this.visibleColumns = Array.from(this.allColumns);

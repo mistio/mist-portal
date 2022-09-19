@@ -64,7 +64,7 @@ export default class SecretCreate extends connect(store)(LitElement) {
           e.forEach(i => {
             ret[i.key] = i.value;
           });
-          return ret;
+          return JSON.stringify(ret);
         },
       },
       'ui:cancel': 'Cancel',
@@ -93,17 +93,19 @@ export default class SecretCreate extends connect(store)(LitElement) {
           window.history.back();
         }}
         @response=${e => {
-          this.dispatchEvent(
-            new CustomEvent('go', {
-              detail: {
-                value: `orgs/${this.orgName}/secrets/${
-                  JSON.parse(e.detail.target.response).id
-                }`,
-              },
-              bubbles: true,
-              composed: true,
-            })
-          );
+          if (e.detail.status < 300) {
+            this.dispatchEvent(
+              new CustomEvent('go', {
+                detail: {
+                  value: `orgs/${this.orgName}/secrets/${
+                    JSON.parse(e.detail.target.response).id
+                  }`,
+                },
+                bubbles: true,
+                composed: true,
+              })
+            );
+          }
         }}
       ></mist-form>
     `;

@@ -12,23 +12,13 @@ export default class ListPage extends connect(store)(LitElement) {
   static get styles() {
     return css`
       :host {
-        align-items: baseline;
-        justify-content: center;
+        margin: 1%;
+        display: block;
       }
       mist-list {
         display: block;
         clear: both;
         width: 100%;
-      }
-      div.header {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-      }
-      div.actions {
-        display: flex;
-        align-items: baseline;
-        justify-content: end;
       }
     `;
   }
@@ -37,7 +27,6 @@ export default class ListPage extends connect(store)(LitElement) {
     return {
       section: { type: String },
       orgName: { type: String },
-      selectedItems: { type: Array },
       listHeight: { type: Number },
       hierarchical: { type: Boolean },
     };
@@ -50,16 +39,78 @@ export default class ListPage extends connect(store)(LitElement) {
     this.orgName = state.org.name;
     this.dataProvider = reduxDataProvider.bind(this);
     this.renderers = {};
-    this.selectedItems = [];
     this.actions = [];
     this.visibleColumns = [];
     this.hierarchical = false;
     this._handleResize();
   }
 
+  get list() {
+    return this.shadowRoot && this.shadowRoot.querySelector('mist-list');
+  }
+
   firstUpdated() {
     (async () => {
-      const response = await import(`./${this.section}.js`);
+      let response;
+      switch (this.section) {
+        case 'clouds':
+          response = await import(`./clouds.js`);
+          break;
+        case 'clusters':
+          response = await import(`./clusters.js`);
+          break;
+        case 'machines':
+          response = await import(`./machines.js`);
+          break;
+        case 'volumes':
+          response = await import(`./volumes.js`);
+          break;
+        case 'buckets':
+          response = await import(`./buckets.js`);
+          break;
+        case 'networks':
+          response = await import(`./networks.js`);
+          break;
+        case 'zones':
+          response = await import(`./zones.js`);
+          break;
+        case 'images':
+          response = await import(`./images.js`);
+          break;
+        case 'stacks':
+          response = await import(`./stacks.js`);
+          break;
+        case 'templates':
+          response = await import(`./templates.js`);
+          break;
+        case 'keys':
+          response = await import(`./keys.js`);
+          break;
+        case 'secrets':
+          response = await import(`./secrets.js`);
+          break;
+        case 'scripts':
+          response = await import(`./scripts.js`);
+          break;
+        case 'schedules':
+          response = await import(`./schedules.js`);
+          break;
+        case 'rules':
+          response = await import(`./rules.js`);
+          break;
+        case 'members':
+          response = await import(`./members.js`);
+          break;
+        case 'teams':
+          response = await import(`./teams.js`);
+          break;
+        default:
+          // TODO not-found
+          this.go('..');
+          return;
+        // response = await import(`./${this.section}.js`);
+        // break;
+      }
       if (response.hierarchical) {
         this.hierarchical = true;
       }

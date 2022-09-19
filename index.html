@@ -23,12 +23,21 @@
       height: 100%;
       font-family: sans-serif;
     }
-  </style>
+    paper-toggle-button {
+      --paper-toggle-button-checked-bar-color: var(--paper-blue-600);
+      --paper-toggle-button-checked-button-color: var(--paper-blue-600);
+      --paper-toggle-button-checked-ink-color: var(--paper-blue-600);
+    }
+    vaadin-grid#invisibleColumns::part(header-cell) {
+      display: none !important;
+    }
+
+</style>
 </head>
 
 <body>
   <mist-portal></mist-portal>
-
+  <div id="dialog"></div>
   <script type="module" src="./src/mist-portal.js"></script>
 </body>
 

@@ -14,7 +14,7 @@ export default class MistSidebar extends connect(store)(LitElement) {
   static get styles() {
     return css`
       vaadin-tab {
-        padding: 5px 10px;
+        padding: 5px 12px;
       }
       iron-icon.section-symbol,
       vaadin-icon.section-symbol {

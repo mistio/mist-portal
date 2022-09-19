@@ -2,7 +2,11 @@ import { LitElement, html, css } from 'lit';
 import '@vaadin/select';
 import '@vaadin/text-field';
 import '@vaadin/vaadin-lumo-styles/presets/compact.js';
+import '@vaadin/vaadin-lumo-styles/color.js';
 
+import { selectRenderer } from 'lit-vaadin-helpers';
+import '@polymer/iron-icons/iron-icons.js';
+import '@polymer/iron-icon/iron-icon.js';
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from './redux/store.js';
 import { orgUpdated, orgSelected } from './redux/slices/org.js';
@@ -110,8 +114,8 @@ export default class OrgDashboard extends connect(store)(LitElement) {
             <vaadin-select
               id="selectOrg"
               theme="compact"
-              .items="${this.orgs.map(i => ({ label: i.name, value: i.name }))}"
               .value="${this.orgName}"
+              ${selectRenderer(this.orgRenderer, this.orgs)}
               @change=${e => {
                 this.dispatchEvent(
                   new CustomEvent('go', {
@@ -135,6 +139,68 @@ export default class OrgDashboard extends connect(store)(LitElement) {
         ></mist-sidebar>
         <slot></slot>
       </vaadin-app-layout>
+    `;
+  }
+
+  orgRenderer() {
+    return html`
+      <vaadin-list-box>
+        ${this.orgs.map(
+          org => html`
+            ${org.name === this.orgName
+              ? html` <vaadin-button
+                  theme="icon tertiary small borderless"
+                  title="Organization settings"
+                  style="box-shadow: none !important; float:right; margin-right: 2px; border: none"
+                  @click=${() => {
+                    this.dispatchEvent(
+                      new CustomEvent('go', {
+                        detail: { value: `orgs/${this.orgName}/+settings` },
+                        bubbles: true,
+                        composed: true,
+                      })
+                    );
+                  }}
+                  ><vaadin-icon icon="vaadin:wrench"></vaadin-icon
+                ></vaadin-button>`
+              : ''}
+
+            <vaadin-item value="${org.name}">
+              <div style="display: flex; align-items: center;">
+                <div style="height: 18px; width: 18px; margin-right: 8px;">
+                  <svg
+                    width="100%"
+                    height="100%"
+                    viewBox="0 0 18 18"
+                    fit=""
+                    preserveAspectRatio="xMidYMid meet"
+                    focusable="false"
+                  >
+                    <path
+                      d="M10.557 11.99l-1.71-2.966 1.71-3.015h3.42l1.71 3.01-1.71 2.964h-3.42zM4.023 16l-1.71-2.966 1.71-3.015h3.42l1.71 3.01L7.443 16h-3.42zm0-8.016l-1.71-2.966 1.71-3.015h3.42l1.71 3.015-1.71 2.966h-3.42z"
+                      fill-rule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+                <div>${org.name}</div>
+              </div>
+            </vaadin-item>
+          `
+        )}
+        <vaadin-button
+          theme="compact primary"
+          @click=${() => {
+            this.dispatchEvent(
+              new CustomEvent('go', {
+                detail: { value: 'orgs/+create' },
+                bubbles: true,
+                composed: true,
+              })
+            );
+          }}
+          >Create organization</vaadin-button
+        >
+      </vaadin-list-box>
     `;
   }
 

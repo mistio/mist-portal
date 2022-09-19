@@ -5,7 +5,7 @@ import { store } from './redux/store.js';
 import '@vaadin/text-field';
 import { BASE_API_SPEC } from './config.js';
 /* eslint-disable class-methods-use-this */
-export default class CloudAdd extends connect(store)(LitElement) {
+export default class CloudEdit extends connect(store)(LitElement) {
   static get styles() {
     return css`
       :host {
@@ -39,7 +39,7 @@ export default class CloudAdd extends connect(store)(LitElement) {
     super();
     this.orgName = '';
     this.jsonSchema = {
-      $ref: `${BASE_API_SPEC}#/components/schemas/AddCloudRequest`,
+      $ref: `${BASE_API_SPEC}#/components/schemas/EditCloudRequest`,
     };
     this.uiSchema = {
       credentials: {
@@ -108,12 +108,6 @@ export default class CloudAdd extends connect(store)(LitElement) {
                 composed: true,
               })
             );
-            import('@vaadin/notification').then(module => {
-              const notification = module.Notification.show(`Cloud added`, {
-                position: 'bottom-start',
-              });
-              notification.setAttribute('theme', 'success');
-            });
           }
         }}
       ></mist-form>
@@ -121,4 +115,4 @@ export default class CloudAdd extends connect(store)(LitElement) {
   }
 }
 
-customElements.define('cloud-add', CloudAdd);
+customElements.define('cloud-edit', CloudEdit);
