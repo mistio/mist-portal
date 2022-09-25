@@ -57,12 +57,12 @@ build_portal_image:
   variables:
     GIT_SUBMODULE_STRATEGY: recursive
   script:
-    - docker build --rm --build-arg build_tag=$CI_COMMIT_SHA -t gcr.io/mist-ops/portal:$CI_COMMIT_SHA .
-    - docker tag gcr.io/mist-ops/portal:$CI_COMMIT_SHA gcr.io/mist-ops/portal:$CI_COMMIT_REF_SLUG
-    - docker tag gcr.io/mist-ops/portal:$CI_COMMIT_SHA mist/portal:$CI_COMMIT_SHA
-    - docker tag gcr.io/mist-ops/portal:$CI_COMMIT_REF_SLUG mist/portal:$CI_COMMIT_REF_SLUG
-    - docker push gcr.io/mist-ops/portal:$CI_COMMIT_SHA
-    - docker push gcr.io/mist-ops/portal:$CI_COMMIT_REF_SLUG
+    - docker build --rm --build-arg build_tag=$CI_COMMIT_SHA -t registry.ops.mist.io/mistio/mist-portal:$CI_COMMIT_SHA .
+    - docker tag registry.ops.mist.io/mistio/mist-portal:$CI_COMMIT_SHA registry.ops.mist.io/mistio/mist-portal:$CI_COMMIT_REF_SLUG
+    - docker tag registry.ops.mist.io/mistio/mist-portal:$CI_COMMIT_SHA mist/portal:$CI_COMMIT_SHA
+    - docker tag registry.ops.mist.io/mistio/mist-portal:$CI_COMMIT_REF_SLUG mist/portal:$CI_COMMIT_REF_SLUG
+    - docker push registry.ops.mist.io/mistio/mist-portal:$CI_COMMIT_SHA
+    - docker push registry.ops.mist.io/mistio/mist-portal:$CI_COMMIT_REF_SLUG
     - docker push mist/portal:$CI_COMMIT_SHA
     - docker push mist/portal:$CI_COMMIT_REF_SLUG
   tags:
