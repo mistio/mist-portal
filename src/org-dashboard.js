@@ -19,6 +19,7 @@ export default class OrgDashboard extends connect(store)(LitElement) {
         width: 100%;
         justify-content: space-between;
         display: flex;
+        height: 46px;
       }
       vaadin-avatar {
         top: 8px;
@@ -33,12 +34,12 @@ export default class OrgDashboard extends connect(store)(LitElement) {
         width: 71px;
         margin-left: -2px;
         position: relative;
-        top: 5px;
+        top: 10px;
       }
 
       vaadin-select#selectOrg {
         position: relative;
-        top: -4px;
+        top: 4px;
         left: 16px;
         width: 8em;
         --lumo-contrast-10pct: transparent;

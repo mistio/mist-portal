@@ -248,8 +248,8 @@ export default class MistSidebar extends connect(store)(LitElement) {
         color: var(--dashboard-sidebar-link-color);
       }
 
-      a#stacks {
-        color: var(--stacks-sidebar-link-color);
+      a#apps {
+        color: var(--apps-sidebar-link-color);
       }
 
       a#keys {

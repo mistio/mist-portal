@@ -7,7 +7,7 @@ const sectionsSlice = createSlice({
       'dashboard',
       'incidents',
       'clouds',
-      'stacks',
+      'apps',
       'clusters',
       'machines',
       'volumes',
@@ -49,8 +49,8 @@ const sectionsSlice = createSlice({
         tile: false,
         hr: false,
       },
-      stacks: {
-        id: 'stacks',
+      apps: {
+        id: 'apps',
         color: '#0277BD',
         icon: 'maps:layers',
         sidebar: true,

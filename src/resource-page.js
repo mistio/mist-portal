@@ -155,8 +155,8 @@ export default class ResourcePage extends connect(store)(LitElement) {
         case 'images':
           response = await import(`./images.js`);
           break;
-        case 'stacks':
-          response = await import(`./stacks.js`);
+        case 'apps':
+          response = await import(`./apps.js`);
           break;
         case 'templates':
           response = await import(`./templates.js`);
