@@ -109,7 +109,7 @@ export default class OrgDashboard extends connect(store)(LitElement) {
         >
           <div>
             <a href="./" class="logo-link">
-              <img src="assets/mist-logo-inverted.svg" alt="" />
+              <img src="assets/logo.png" alt="" />
             </a>
             <vaadin-select
               id="selectOrg"
