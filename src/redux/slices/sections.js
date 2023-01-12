@@ -6,8 +6,8 @@ const sectionsSlice = createSlice({
     order: [
       'dashboard',
       'incidents',
-      'clouds',
       'apps',
+      'clouds',
       'clusters',
       'machines',
       'volumes',
@@ -40,6 +40,16 @@ const sectionsSlice = createSlice({
         sidebar: false,
         tile: false,
       },
+      apps: {
+        id: 'apps',
+        color: '#0277BD',
+        icon: 'icons:apps',
+        sidebar: true,
+        tile: true,
+        hr: true,
+        hideZero: true,
+        hideTileIfZero: true,
+      },
       clouds: {
         id: 'clouds',
         color: '#424242',
@@ -48,16 +58,6 @@ const sectionsSlice = createSlice({
         sidebar: true,
         tile: false,
         hr: false,
-      },
-      apps: {
-        id: 'apps',
-        color: '#0277BD',
-        icon: 'maps:layers',
-        sidebar: true,
-        tile: true,
-        hr: true,
-        hideZero: true,
-        hideTileIfZero: true,
       },
       clusters: {
         id: 'clusters',
